@@ -17,19 +17,19 @@
 /************* TYPE DEFINITIONS *************/
 /********************************************/
 
-typedef struct _Node_ {
+typedef struct _ListElm_ {
   
   void * data;
-  struct _Node_ * next;
+  struct _ListElm_ * next;
 
-} Node;
+} ListElm;
 
 typedef struct _List_ {
 
   int size;
   void (*destroy)(void * data);
-  Node * head;
-  Node * tail;
+  ListElm * head;
+  ListElm * tail;
 
 } List;
 
@@ -66,17 +66,17 @@ void list_init(List * list, void (*destroy)(void * data))
   return;
 }
 
-// FUNCTION: list_insnxt O(1) -- inserts a new node after the node specified
-// PARAMETERS: list: List* -- the list to be operated on
-//             node: Node* -- the reference node; new node is inserted after this
-//             data: const void* -- the data to be placed in the new node
+// FUNCTION: list_insnxt O(1) -- inserts a new ListElm after the ListElm specified
+// PARAMETERS: list: List * -- the list to be operated on
+//             node: ListElm * -- the reference ListElm; new ListElm is inserted after this
+//             data: const void * -- the data to be placed in the new ListElm
 // RETURN: int -- -1 for failure, 0 for success
-int list_insnxt(List * list, Node * node, const void * data)
+int list_insnxt(List * list, ListElm * node, const void * data)
 {
-  Node * new;
+  ListElm * new;
   
   // Perform null check on allocated memory
-  if ((new = (Node *)malloc(sizeof(Node))) == NULL)
+  if ((new = (ListElm *)malloc(sizeof(ListElm))) == NULL)
     return -1;
 
   new->data = (void *)data;
@@ -102,16 +102,16 @@ int list_insnxt(List * list, Node * node, const void * data)
   return 0;
 }
 
-// FUNCTION: list_remnxt O(1) -- removes the element after the node specified
+// FUNCTION: list_remnxt O(1) -- removes the element after the ListElm specified
 // PARAMETERS: list: List* -- the list to be operated on
-//             node: Node* -- the reference node; the node after this node is removed
+//             node: ListElm* -- the reference node; the node after this node is removed
 //             data: void ** -- the data (void *) of the removed node is placed in this pointer
-int list_remnxt(List * list, Node * node, void ** data)
+int list_remnxt(List * list, ListElm * node, void ** data)
 {
   if (list_istail(list, node) || list_size(list) == 0)
     return -1;
   
-  Node * old;
+  ListElm * old;
 
   // Handle deletion at the head
   if (node == NULL) {
