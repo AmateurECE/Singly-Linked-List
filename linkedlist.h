@@ -134,6 +134,20 @@ int list_remnxt(List * list, ListElm * node, void ** data)
   return 0;
 }
 
+// FUNCTION: list_traverse O(n) -- traverses the list from end to end and invokes func()
+//           on each data point in the list.
+// PARAMETERS: list: (List *) -- the list to traverse.
+//             func: (void (*func)(void *)) -- the function to call on each data point.
+// RETURN: void.
+void list_traverse(List * list, void (*func)(void *))
+{
+  ListElm * elm;
+  
+  for (elm = list_head(list); elm != NULL; elm = list_next(elm)) {
+    func(elm->data);
+  }
+}
+
 // FUNCTION: list_dest O(n) -- clears a list's memory
 // PARAMETER: list: List* -- the list to be cleared
 // RETURN: int -- -1 for failure, 0 for success
