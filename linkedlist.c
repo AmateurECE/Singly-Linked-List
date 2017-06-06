@@ -79,13 +79,13 @@ int list_insnxt(List * list, ListElm * node, const void * data)
 {
   ListElm * new;
   
-  // Perform null check on allocated memory
+  /* Perform null check on allocated memory */
   if ((new = (ListElm *)malloc(sizeof(ListElm))) == NULL)
     return -1;
 
   new->data = (void *)data;
 
-  // Handle insertion of element at Head
+  /* Handle insertion of element at Head */
   if (node == NULL) {
     if (list_size(list) == 0)
       list->tail = new;
@@ -93,7 +93,7 @@ int list_insnxt(List * list, ListElm * node, const void * data)
     new->next = list->head;
     list->head = new;
   
-    // Handle insertion somewhere else
+    /* Handle insertion somewhere else */
   } else {
     if (list_next(node) == NULL)
       list->tail = new;
@@ -128,13 +128,13 @@ int list_remnxt(List * list, ListElm * node, void ** data)
   
   ListElm * old;
 
-  // Handle deletion at the head
+  /* Handle deletion at the head */
   if (node == NULL) {
     old = list->head;
     list->head = list->head->next;
     *data = old->data;
 
-    // Handle deletion somewhere else in the list
+    /* Handle deletion somewhere else in the list */
   } else {
     if (list_istail(list, list_next(node)))
       list->tail = node;
@@ -209,24 +209,24 @@ int main(int argc, char * argv[])
   List * list;
   int * pNum;
 
-  // Allocate a list, or fail if it cannot be done.
+  /* Allocate a list, or fail if it cannot be done. */
   if ((list = malloc(sizeof(List))) == NULL)
     error_exit(1, "Could not allocate storage for list!\n");
   
-  // Initialize the list
+  /* Initialize the list */
   list_init(list, destroy);
 
   srand((unsigned)time(NULL));
 
   printf("Tail test:\n");
-  // Add ten random digits to the TAIL of thelist.
+  /* Add ten random digits to the TAIL of thelist. */
   for (int i = 0; i < 10; i++) {
     pNum = malloc(sizeof(int));
     *pNum = rand() % 20;
     list_insnxt(list, list_tail(list), pNum);
   }
 
-  // Remove and print each element from the list, starting at HEAD.
+  /* Remove and print each element from the list, starting at HEAD. */
   while (!list_isempty(list)) {
     list_remnxt(list, NULL, (void **)&pNum);
     printf("%d ", *pNum);
@@ -237,14 +237,14 @@ int main(int argc, char * argv[])
   list_init(list, destroy);
 
   printf("\nHead test:\n");
-  // Add ten random digits to the HEAD of thelist.
+  /* Add ten random digits to the HEAD of thelist. */
   for (int i = 0; i < 10; i++) {
     pNum = malloc(sizeof(int));
     *pNum = rand() % 20;
     list_insnxt(list, NULL, pNum);
   }
 
-  // Remove and print each element from the list, starting at HEAD.
+  /* Remove and print each element from the list, starting at HEAD. */
   while (!list_isempty(list)) {
     list_remnxt(list, NULL, (void **)&pNum);
     printf("%d ", *pNum);
@@ -259,14 +259,14 @@ int main(int argc, char * argv[])
   list_insnxt(list, list_head(list), pNum);
 
   printf("\nRandom test:\n");
-  // Add ten random digits to the HEAD of thelist.
+  /* Add ten random digits to the HEAD of thelist. */
   for (int i = 0; i < 9; i++) {
     pNum = malloc(sizeof(int));
     *pNum = rand() % 20;
     list_insnxt(list, list_tail(list), pNum);
   }
 
-  // Remove and print each element from the list, starting at HEAD.
+  /* Remove and print each element from the list, starting at HEAD. */
   while (!list_isempty(list)) {
     list_remnxt(list, NULL, (void **)&pNum);
     printf("%d ", *pNum);
