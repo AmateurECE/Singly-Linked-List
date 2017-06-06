@@ -17,7 +17,7 @@ $(P): $(OBJECTS)
 
 .PHONY: debug clean
 
-CFLAGS_DEBUG = -g -O0 -Wall -D CONFIG_DEBUG
+CFLAGS_DEBUG = -g -O0 -Wall -D CONFIG_DEBUG_LIST
 
 debug:
 	$(CC) $(CFLAGS_DEBUG) -o $(P) $(OBJECTS) $(LDLIBS)

@@ -19,7 +19,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+#ifdef CONFIG_DEBUG_LIST
 #include <time.h>
+#endif
 
 #include "linkedlist.h"
 
@@ -27,7 +30,7 @@
  * LOCAL PROTOTYPES
  ***/
 
-#ifdef CONFIG_DEBUG
+#ifdef CONFIG_DEBUG_LIST
 static inline void error_exit(int, char *);
 void destroy(void *);
 #endif
@@ -203,7 +206,7 @@ int list_dest(List * list)
  * MAIN
  ***/
 
-#ifdef CONFIG_DEBUG
+#ifdef CONFIG_DEBUG_LIST
 int main(int argc, char * argv[])
 {  
   List * list;
@@ -285,7 +288,7 @@ int main(int argc, char * argv[])
  * LOCAL FUNCTIONS
  ***/
 
-#ifdef CONFIG_DEBUG
+#ifdef CONFIG_DEBUG_LIST
 static inline void error_exit(int status, char * msg)
 {
   fprintf(stderr, "%s", msg);
