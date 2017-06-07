@@ -11,8 +11,8 @@
  * LAST EDITED:	    06/06/17
  */
 
-#ifndef __ET_LINKEDLIST__
-#define __ET_LINKEDLIST__
+#ifndef __ET_LINKEDLIST_H__
+#define __ET_LINKEDLIST_H__
 
 /*******************************************************************************
  * TYPE DEFINITIONS
@@ -58,4 +58,6 @@ extern int list_remnxt(List *, ListElm *, void **);
 extern void list_traverse(List *, void (*)(void *));
 extern int list_dest(List *);
 
-#endif /* __ET_LINKEDLIST__ */
+#endif /* __ET_LINKEDLIST_H__ */
+
+/******************************************************************************/

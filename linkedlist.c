@@ -22,7 +22,7 @@
 
 #ifdef CONFIG_DEBUG_LIST
 #include <time.h>
-#endif
+#endif /* CONFIG_DEBUG_LIST */
 
 #include "linkedlist.h"
 
@@ -33,7 +33,7 @@
 #ifdef CONFIG_DEBUG_LIST
 static inline void error_exit(int, char *);
 void destroy(void *);
-#endif
+#endif /* CONFIG_DEBUG_LIST */
 
 /*******************************************************************************
  * API FUNCTIONS
@@ -282,7 +282,7 @@ int main(int argc, char * argv[])
   free(list);
   return 0;
 }
-#endif
+#endif /* CONFIG_DEBUG_LIST */
 
 /*******************************************************************************
  * LOCAL FUNCTIONS
