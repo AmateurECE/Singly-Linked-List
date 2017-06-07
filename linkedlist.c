@@ -1,15 +1,15 @@
 /*******************************************************************************
- * NAME: linkedlist.c
+ * NAME:	    linkedlist.c
  *
- * AUTHOR: Ethan D. Twardy
+ * AUTHOR:	    Ethan D. Twardy
  *
- * DESCRIPTION: The file defining the API functions for the types and function
- *              prototypes in linkedlist.h, and code meant for the testing of
- *              those functions.
+ * DESCRIPTION:	    The file defining the API functions for the types and
+ *		    function prototypes in linkedlist.h, and code meant for the
+ *		    testing of those functions.
  *
- * CREATED: 06/05/17
+ * CREATED:	    06/05/17
  * 
- * LAST EDITED: 06/05/17
+ * LAST EDITED:	    06/05/17
  ***/
 
 /*******************************************************************************

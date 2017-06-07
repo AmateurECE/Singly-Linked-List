@@ -1,11 +1,14 @@
-/*
- * TITLE: linkedlist.h
- * AUTHOR: Ethan Twardy
- * CREATED: 03.29.17
- * LAST EDITED: 03.30.17
+/*******************************************************************************
+ * NAME:	    linkedlist.h
  *
- * DESCRIPTION: The header file containing the actual
- * custom implementation of a singly-linked list
+ * AUTHOR:	    Ethan D. Twardy
+ *
+ * DESCRIPTION:	    The header file containing the type definitions and function
+ *		    prototypes for the implementation of a singly-linked list.
+ *
+ * CREATED:	    03/29/17
+ *
+ * LAST EDITED:	    06/06/17
  */
 
 #ifndef __ET_LINKEDLIST__
