@@ -1,10 +1,14 @@
 ################################################################################
-# NAME: makefile
-# AUTHOR: Ethan D. Twardy
-# DESCRIPTION: makefile for the executable contained in this directory.
-# CREATED: 06/05/17
-# LAST EDITED: 06/05/17
-################################################################################
+# NAME:		    makefile
+#
+# AUTHOR:	    Ethan D. Twardy
+#
+# DESCRIPTION:	    Makefile for the Singly-Linked List.
+#
+# CREATED:	    05/05/2017
+#
+# LAST EDITED:	    11/15/2017
+###
 
 P = linkedlist
 OBJECTS = linkedlist.c
@@ -26,3 +30,5 @@ clean:
 	rm -rf *.c~
 	rm -rf *.h~
 	rm -rf makefile~
+
+################################################################################
