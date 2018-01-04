@@ -1,5 +1,5 @@
-/*******************************************************************************
- * NAME:	    linkedlist.c
+/******************************************************************************
+ * NAME:	    list.c
  *
  * AUTHOR:	    Ethan D. Twardy
  *
@@ -7,12 +7,12 @@
  *		    function prototypes in linkedlist.h, and code meant for the
  *		    testing of those functions.
  *
- * CREATED:	    06/05/17
+ * CREATED:	    06/05/2017
  * 
- * LAST EDITED:	    06/05/17
+ * LAST EDITED:	    01/03/2018
  ***/
 
-/*******************************************************************************
+/******************************************************************************
  * INCLUDES
  ***/
 
@@ -24,66 +24,68 @@
 #include <time.h>
 #endif /* CONFIG_DEBUG_LIST */
 
-#include "linkedlist.h"
+#include "list.h"
 
-/*******************************************************************************
+/******************************************************************************
  * LOCAL PROTOTYPES
  ***/
 
 #ifdef CONFIG_DEBUG_LIST
 static inline void error_exit(int, char *);
-void destroy(void *);
 #endif /* CONFIG_DEBUG_LIST */
 
-/*******************************************************************************
+/******************************************************************************
  * API FUNCTIONS
  ***/
 
-/*******************************************************************************
- * FUNCTION:        list_init
+/******************************************************************************
+ * FUNCTION:        list_create
  *
- * DESCRIPTION:     Initializes a list pointer.
+ * DESCRIPTION:     Creates a new list, and returns a pointer to it.
  *
- * ARGUMENTS:       list: (List *) -- the list to be operated on.
- *                  destroy: (void (*)(void *)) -- the user-defined function for
- *                           freeing data contained in the list.
+ * ARGUMENTS:       destroy: (void (*)(void *)) -- the user-defined function
+ *                           for freeing data contained in the list.
  *
- * RETURN:          void
+ * RETURN:          (list *) -- pointer to the new list, or NULL if there was
+ *		    an error.
  *
  * NOTES:           O(1)
  ***/
-void list_init(List * list, void (*destroy)(void * data))
+list * list_create(void (*destroy)(void *))
 {
+  list * slist = NULL;
+  if ((slist = malloc(sizeof(list))) == NULL)
+    return NULL;
+  
+  slist->size = 0;
+  slist->destroy = destroy;
+  slist->head = NULL;
+  slist->tail = NULL;
 
-  list->size = 0;
-  list->destroy = destroy;
-  list->head = NULL;
-  list->tail = NULL;
-
-  return;
+  return slist;
 }
 
-/*******************************************************************************
+/******************************************************************************
  * FUNCTION:        list_insnxt
  *
- * DESCRIPTION:     Inserts a new ListElm after the ListElm specified.
+ * DESCRIPTION:     Inserts a new listelmt after the listelmt specified.
  *
- * ARGUMENTS:       list: (List *) -- the list to be operated on.
- *                  node: (ListElm *) -- the reference ListElm; new ListElm is
- *                        inserted after this node.
+ * ARGUMENTS:       list: (list *) -- the list to be operated on.
+ *                  node: (listelmt *) -- the reference listelmt; new
+ *                        listelmt is inserted after this node.
  *                  data: (const void *) -- the data to be placed in the new
- *                        ListElm.
+ *                        listelmt.
  *
  * RETURN:          int -- -1 for failure, 0 for success.
  *
  * NOTES:           O(1)
  ***/
-int list_insnxt(List * list, ListElm * node, const void * data)
+int list_insnxt(list * list, listelmt * node, const void * data)
 {
-  ListElm * new;
+  listelmt * new;
   
   /* Perform null check on allocated memory */
-  if ((new = (ListElm *)malloc(sizeof(ListElm))) == NULL)
+  if ((new = (listelmt *)malloc(sizeof(listelmt))) == NULL)
     return -1;
 
   new->data = (void *)data;
@@ -109,14 +111,14 @@ int list_insnxt(List * list, ListElm * node, const void * data)
   return 0;
 }
 
-/*******************************************************************************
+/******************************************************************************
  * FUNCTION:        list_remnxt
  *
- * DESCRIPTION:     Removes the element after the ListElm specified.
+ * DESCRIPTION:     Removes the element after the listelmt specified.
  *
- * ARGUMENTS:       list: (List *) -- the list to be operated on.
- *                  node: (ListElm *) -- the reference ListElm; old ListElm is
- *                        removed after this node.
+ * ARGUMENTS:       list: (list *) -- the list to be operated on.
+ *                  node: (listelmt *) -- the reference listelmt; old listelmt
+ *                        is removed after this node.
  *                  data: (void **) -- location for the data to be placed in
  *                        after removing the node.
  *
@@ -124,12 +126,12 @@ int list_insnxt(List * list, ListElm * node, const void * data)
  *
  * NOTES:           O(1)
  ***/
-int list_remnxt(List * list, ListElm * node, void ** data)
+int list_remnxt(list * list, listelmt * node, void ** data)
 {
   if (list_istail(list, node) || list_size(list) == 0)
     return -1;
   
-  ListElm * old;
+  listelmt * old;
 
   /* Handle deletion at the head */
   if (node == NULL) {
@@ -152,12 +154,12 @@ int list_remnxt(List * list, ListElm * node, void ** data)
   return 0;
 }
 
-/*******************************************************************************
+/******************************************************************************
  * FUNCTION:        list_traverse
  *
  * DESCRIPTION:     Traverses the list from end to end and invokes func().
  *
- * ARGUMENTS:       list: (List *) -- the list to be operated on.
+ * ARGUMENTS:       llist: (list *) -- the list to be operated on.
  *                  func: (void (*)(void *)) -- the function to call on
  *                        each data point.
  *
@@ -165,59 +167,60 @@ int list_remnxt(List * list, ListElm * node, void ** data)
  *
  * NOTES:           O(1)
  ***/
-void list_traverse(List * list, void (*func)(void *))
+void list_traverse(list * llist, void (*func)(void *))
 {
-  ListElm * elm;
-  
-  for (elm = list_head(list); elm != NULL; elm = list_next(elm)) {
+  for (listelmt * elm = list_head(llist);
+       elm != NULL;
+       elm = list_next(elm)) {
     func(elm->data);
   }
 }
 
-/*******************************************************************************
- * FUNCTION:        list_dest
+/******************************************************************************
+ * FUNCTION:        list_destroy
  *
  * DESCRIPTION:     Clears the memory inhabited by a list and sets all bytes 0.
  *
- * ARGUMENTS:       list: (List *) -- the list to be operated on.
+ * ARGUMENTS:       list: (list **) -- the list to be operated on.
  *
- * RETURN:          void
+ * RETURN:          int -- 0 on success, -1 if there was an error.
  *
  * NOTES:           O(n)
  ***/
-int list_dest(List * list)
+int list_destroy(list ** list)
 {
-  if (list->destroy == NULL)
+  if ((*list)->destroy == NULL)
     return -1;
 
   void * data;
 
-  while (list_size(list) > 0) {
-    if (list_remnxt(list, NULL, (void **)&data) == 0) {
-      list->destroy(data);
+  while (list_size(*list) > 0) {
+    if (list_remnxt(*list, NULL, (void **)&data) == 0) {
+      (*list)->destroy(data);
     }
   }
-  memset(list, 0, sizeof(List));
+
+  free(*list);
+  *list = NULL;
   return 0;
 }
 
-
-/*******************************************************************************
+/******************************************************************************
  * MAIN
  ***/
 
 #ifdef CONFIG_DEBUG_LIST
 int main(int argc, char * argv[])
 {  
-  List * list;
-  int * pNum;
+  /* TODO: Rework testing
+   */
 
-  /* Allocate a list, or fail if it cannot be done. */
-  if ((list = malloc(sizeof(List))) == NULL)
-    error_exit(1, "Could not allocate storage for list!\n");
+  list * list = NULL;
+  int * pNum;
   
   /* Initialize the list */
-  list_init(list, destroy);
+  if ((list = list_create(free)) == NULL)
+    error_exit(1, "Could not create the list.");
 
   srand((unsigned)time(NULL));
 
@@ -236,8 +239,8 @@ int main(int argc, char * argv[])
     free(pNum);
   }
   
-  list_dest(list);
-  list_init(list, destroy);
+  list_destroy(&list);
+  list = list_create(free);
 
   printf("\nHead test:\n");
   /* Add ten random digits to the HEAD of thelist. */
@@ -254,8 +257,8 @@ int main(int argc, char * argv[])
     free(pNum);
   }
 
-  list_dest(list);
-  list_init(list, destroy);
+  list_destroy(&list);
+  list = list_create(free);
 
   pNum = malloc(sizeof(int));
   *pNum = rand() % 20;
@@ -276,15 +279,14 @@ int main(int argc, char * argv[])
     free(pNum);
   }
 
-  list_dest(list);
+  list_destroy(&list);
 
   printf("\n");
-  free(list);
   return 0;
 }
 #endif /* CONFIG_DEBUG_LIST */
 
-/*******************************************************************************
+/******************************************************************************
  * LOCAL FUNCTIONS
  ***/
 
@@ -295,11 +297,6 @@ static inline void error_exit(int status, char * msg)
   exit(status);
   return;
 }
-
-void destroy(void * data)
-{
-  free(data);
-}
 #endif
 
-/******************************************************************************/
+/*****************************************************************************/
