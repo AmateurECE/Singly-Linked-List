@@ -9,11 +9,11 @@
  *
  * CREATED:	    03/29/2017
  *
- * LAST EDITED:	    01/03/2018
+ * LAST EDITED:	    03/16/2018
  */
 
-#ifndef __ET_LINKEDLIST_H__
-#define __ET_LINKEDLIST_H__
+#ifndef __ET_LIST_H__
+#define __ET_LIST_H__
 
 /******************************************************************************
  * TYPE DEFINITIONS
@@ -59,6 +59,6 @@ extern int list_remnxt(list * list, listelmt * elmt, void ** data);
 extern void list_traverse(list * list, void (*fn)(void *));
 extern int list_destroy(list ** list);
 
-#endif /* __ET_LINKEDLIST_H__ */
+#endif /* __ET_LIST_H__ */
 
 /*****************************************************************************/
