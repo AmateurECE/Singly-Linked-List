@@ -57,7 +57,7 @@ extern list * list_create(void (*destroy)(void *));
 extern int list_insnxt(list * list, listelmt * elmt, const void * data);
 extern int list_remnxt(list * list, listelmt * elmt, void ** data);
 extern void list_traverse(list * list, void (*fn)(void *));
-extern int list_destroy(list ** list);
+extern void list_destroy(list ** list);
 
 #endif /* __ET_LIST_H__ */
 

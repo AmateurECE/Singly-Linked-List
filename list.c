@@ -9,7 +9,7 @@
  *
  * CREATED:	    06/05/2017
  * 
- * LAST EDITED:	    01/03/2018
+ * LAST EDITED:	    03/16/2018
  ***/
 
 /******************************************************************************
@@ -183,26 +183,22 @@ void list_traverse(list * llist, void (*func)(void *))
  *
  * ARGUMENTS:       list: (list **) -- the list to be operated on.
  *
- * RETURN:          int -- 0 on success, -1 if there was an error.
+ * RETURN:          void.
  *
  * NOTES:           O(n)
  ***/
-int list_destroy(list ** list)
+void list_destroy(list ** list)
 {
   if ((*list)->destroy == NULL)
-    return -1;
+    return;
 
-  void * data;
-
-  while (list_size(*list) > 0) {
-    if (list_remnxt(*list, NULL, (void **)&data) == 0) {
-      (*list)->destroy(data);
-    }
-  }
+  void * data = NULL;
+  while (!list_remnxt(*list, NULL, (void **)&data))
+    (*list)->destroy(data);
 
   free(*list);
   *list = NULL;
-  return 0;
+  return;
 }
 
 /******************************************************************************
