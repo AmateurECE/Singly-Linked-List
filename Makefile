@@ -7,12 +7,12 @@
 #
 # CREATED:	    05/05/2017
 #
-# LAST EDITED:	    01/03/2018
+# LAST EDITED:	    04/16/2018
 ###
 
 CC=gcc
 ifeq ($(MAKECMDGOALS),debug)
-	CFLAGS = -g -O0 -Wall -D CONFIG_DEBUG_LIST
+	CFLAGS = -g -O0 -Wall -Wextra -pedantic -D CONFIG_DEBUG_LIST
 else
 	CFLAGS = -Wall -O3
 endif

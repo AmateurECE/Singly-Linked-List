@@ -9,7 +9,7 @@
  *
  * CREATED:	    06/05/2017
  * 
- * LAST EDITED:	    03/16/2018
+ * LAST EDITED:	    04/16/2018
  ***/
 
 /******************************************************************************
@@ -206,7 +206,7 @@ void list_destroy(list ** list)
  ***/
 
 #ifdef CONFIG_DEBUG_LIST
-int main(int argc, char * argv[])
+int main()
 {  
   /* TODO: Rework testing
    */
